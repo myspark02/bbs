@@ -17,35 +17,19 @@ Route::get('/', function () {
 Route::get('hello/world', function(){
 	return 'Hello World';
 });
-Route::get('bbs', function() {
-	return view('bbs.board');
-});
+Route::get('bbs', 'BBSController@index');
 
-Route::get('write', function() {
-	return view('bbs.write_form');
-	//return 'Write Form';
-});
+Route::get('write', 'BBSController@create');
 
-Route::post('write', function() {
-	return view('bbs.write');
-	//return 'Write Action';
-});
+Route::post('write','BBSController@store');
 
-Route::get('view', function() {
-	return view('bbs.view');
-});
+Route::get('view', 'BBSController@show');
 
-Route::get('modify', function(){
-	return view('bbs.modify_form');
-});
+Route::get('modify', 'BBSController@edit');
 
-Route::post('modify', function(){
-	return view('bbs.modify');
-});
+Route::post('modify', 'BBSController@update');
 
-Route::post('delete', function(){
-	return view('bbs.delete');
-});
+Route::post('delete', 'BBSController@destroy');
 
 Route::get('master', function(){
 	return view('layouts.master');

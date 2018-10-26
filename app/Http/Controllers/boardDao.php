@@ -1,4 +1,8 @@
 <?php
+namespace App\Http\Controllers;
+
+use \PDO;
+
     class boardDao{
         private $db;
         function __construct(){
