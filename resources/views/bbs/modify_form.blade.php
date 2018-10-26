@@ -29,7 +29,7 @@
       </textarea>
     </div>
     <button type="submit" class="btn btn-primary">수정</button>
-    <a class="btn btn-danger" href="bbs?page={{$page}}">목록보기</a>
+    <a class="btn btn-danger" href="bbs?page={{$page?>">목록보기</a>
   </form>
 </div>
 @endsection('content')

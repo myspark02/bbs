@@ -3,54 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BBSController extends Controller
 {
-    public function index() {
-	    require_once('boardDao.php');
-	    require_once('tools.php');
-
-	    $currentPage = requestValue("page");
-	    // http://localhost/bbs/board.php?page=-3
-	    if($currentPage < 1) 
-	    	$currentPage = 1;
-
-	    /*
-			currentPage는 주어지는 것이고...
-			계산해야 될 것은 startPage, endPage, prevLink, nextLink
-
-	    */
-
-		$dao = new boardDao();
-
-		// 집단함수, aggregate function
-		// select count(*) from board;
-		$totalCount = $dao->getTotalCount();
-		$startPage = 1;
-		$endPage = 1;
-		$prev = false;
-		$next = false;
-		$startRecord = 0;
-		$msgs = null;
-		$totalPages = 0;
-
-		if($totalCount > 0) {
-		
-			$startPage = floor(($currentPage-1)/NUM_PAGE_LINKS)*NUM_PAGE_LINKS+1;	
-			$endPage = $startPage + NUM_PAGE_LINKS - 1;
-			$totalPages = ceil($totalCount/NUM_LINES);
-			if ($endPage > $totalPages)
-				$endPage = $totalPages;
-		
-
-			if ($startPage > 1) $prev = true;
-			if ($endPage < $totalPages) $next = true;
-	
-			$startRecord = ($currentPage-1)*NUM_LINES;	
-			$msgs = $dao->getMsgs4Page($startRecord, NUM_LINES);
-		}
-
-    	return view('bbs.board')->with('startPage', $startPage)->with('endPage', $endPage)->with('prev', $prev)->with('next', $next)->with('startRecord', $startRecord)->with('currentPage', $currentPage)->with('totalCount', $totalCount)->with('msgs', $msgs)->with('totalPages', $totalPages);
+    public function index(Request $request) {
+    	$page = $request->get('page');
+	    $msgs = DB::table('boards')->orderBy('id', 'desc')->paginate(10);
+    	return view('bbs.board')->with('msgs', $msgs)->with('page', $page);
     }
 
     public function show() {
