@@ -9,23 +9,23 @@
   <p>아래의 모든 필드를 채워주세요.</p>
   <form action="modify?page={{$page}}" method="post">
     @csrf
-  	<input type="hidden" name="num" value="{{$row["Num"]}}">
+  	<input type="hidden" name="num" value="{{$row['id']}}">
     <div class="form-group">
       <label for="title">제목:</label>
       <input type="text" class="form-control" id="title" name="title"
-      	value="{{$row["Title"]}}" 
+      	value="{{$row["title"]}}" 
       required>
     </div>
     <div class="form-group">
       <label for="writer">작성자:</label>
-      <input type="text" class="form-control" id="writer" name="writer" value="{{$row["Writer"]}}" 
+      <input type="text" class="form-control" id="writer" name="writer" value="{{$row["writer"]}}" 
       required>
     </div>    
     <div class="form-group">
       <label for="content">내용:</label>
       <textarea class="form-control" rows="5" id="content" name="content"
       required>
-      	{{$row["Content"]}}
+      	{{$row["content"]}}
       </textarea>
     </div>
     <button type="submit" class="btn btn-primary">수정</button>

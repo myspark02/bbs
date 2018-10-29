@@ -26,23 +26,23 @@
 		<table class="table">
 			<tr> 
 				<th>제목</th>
-				<td> {{$msg["Title"]}}</td>
+				<td> {{$msg["title"]}}</td>
 			</tr>	
 			<tr> 
 				<th>작성자</th>
-				<td>{{$msg["Writer"]}}</td>
+				<td>{{$msg["writer"]}}</td>
 			</tr>	
 			<tr> 
 				<th>작성일시</th>
-				<td>{{$msg["Regtime"]}}</td>				
+				<td>{{$msg["regtime"]}}</td>				
 			</tr>	
 			<tr> 
 				<th>조회수</th>
-				<td>{{$msg["Hits"]}}</td>				
+				<td>{{$msg["hits"]}}</td>				
 			</tr>	
 			<tr> 
 				<th>내용</th>
-				<td>{{$msg["Content"]}}</td>				
+				<td>{{$msg["content"]}}</td>				
 			</tr>				
 		</table>	
 
@@ -56,15 +56,15 @@
 			</div>
 			<div class="col-sm-1">	
 				<input type="button" class="btn btn-success" 
-					onclick="location.href='modify?num={{$msg["Num"]}}&page={{$page}}'" value="수정">
+					onclick="location.href='modify?num={{$msg['id']}}&page={{$page}}'" value="수정">
 			</div>	
 			<div class="col-sm-1">
 				<form action="delete" id="delete" method="post">	
 					@csrf
-					<input type="hidden" name="num" value={{$msg["Num"]}}>
+					<input type="hidden" name="num" value={{$msg["id"]}}>
 					<input type="hidden" name="page" value={{$page}}>
 					<input type="button" class="btn btn-danger" 
-						onclick="delReq({{$msg["Num"]}})"value="삭제">
+						onclick="delReq({{$msg["id"]}})"value="삭제">
 				</form>	
 			</div>
 			<div class="col-sm-8"></div>
