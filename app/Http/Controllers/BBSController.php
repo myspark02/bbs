@@ -8,6 +8,9 @@ use App\Board;
 
 class BBSController extends Controller
 {
+	public function __construct() {
+		return $this->middleware('auth');
+	}
     public function index(Request $request) {
     	$page = $request->get('page');
 	   // $msgs = DB::table('boards')->orderBy('id', 'desc')->paginate(10);

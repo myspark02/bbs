@@ -8,4 +8,8 @@ class Board extends Model
 {
 	protected $fillable = ['title', 'writer', 'content'];
     //
+
+    public function user() {
+    	return $this->belongsTo(App\User::class);
+    }
 }
