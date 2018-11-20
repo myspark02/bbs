@@ -51,7 +51,7 @@
             <a class="nav-link js-scroll-trigger" href="{{route('sessions.destroy')}}">로그아웃</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
+            <a class="nav-link js-scroll-trigger" href="{{route('remind.create')}}">비밀번호 재설정</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#awards">Awards</a>

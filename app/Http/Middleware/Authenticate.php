@@ -15,6 +15,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         //return route('login');
+        flash('먼저 로그인 하세요');
         return route('sessions.create');
     }
 }

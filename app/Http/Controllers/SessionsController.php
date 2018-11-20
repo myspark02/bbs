@@ -28,7 +28,7 @@ class SessionsController extends Controller
     		flash('이메일 또는 비밀번호가 맞지 않습니다.');
     		return back()->withInput();
     	}
-    	Auth::logoutOtherDevices($request->password);
+    	//Auth::logoutOtherDevices($request->password);
     	flash(auth()->user()->name . '님 환영합니다.');
     	return redirect()->intended('bbs');
     }
