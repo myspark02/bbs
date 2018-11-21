@@ -30,13 +30,15 @@ class PasswordsController extends Controller
     			'token' => $token, 
     			'created_at' => \Carbon\Carbon::now()->toDateTimeString()
     		]);
-
+    	/*
     	\Mail::send('emails.passwords.reset', compact('token'), function($message) use ($email){
     		$message->to($email);
     		$message->subject('비밀번호를 초기화하세요.');
     	});
 
     	flash('비밀번호를 바꾸는 방법을 담은 이메일을 발송했습니다. 메일박스를 확인해 주세요');
+    	*/
+    	event(new \App\Events\PasswordRemindCreated($email, $token));
     	return redirect(route('sessions.create'));
     }
 
