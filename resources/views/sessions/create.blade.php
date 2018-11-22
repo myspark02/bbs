@@ -3,6 +3,32 @@
 @section('content')
 	<form action="{{route('sessions.store')}}" method="POST" class="form__auth">
 		@csrf
+		
+		 <div class="page-header">
+		      <h4>
+		        {{ __('messages.sessions.title') }}
+		      </h4>
+		      <p class="text-muted">
+		        {{ __('messages.sessions.description') }}
+		      </p>
+		</div>
+
+		<div class="form-group">
+		      <a class="btn btn-default btn-lg btn-block" href="{{ route('social.login', ['github']) }}">
+		        <strong>
+		          <i class="fa fa-github"></i>
+		          {{ __('messages.sessions.login_with_github') }}
+		        </strong>
+		      </a>
+		</div>
+
+		<div class="login-or">
+		      <hr class="hr-or">
+		      <span class="span-or">or</span>
+		 </div>
+
+
+
 		 <div class="form-group row">
             <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
