@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\PasswordRemindCreated::class => [
            \App\Listeners\UsersEventListener::class,
         ],
+        \App\Events\UserCreated::class => [
+            \App\Listeners\UsersEventListener::class,
+        ]
     ];
 
     /**

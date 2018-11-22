@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\User;
 
 class SessionsController extends Controller
 {
@@ -24,9 +25,15 @@ class SessionsController extends Controller
     		'password' => 'required|min:6',
     	]);
 
-    	if(!auth()->attempt($request->only('email', 'password'), $request->has('remember'))) {
+        $user = User::whereEmail($request->email)->whereNotNull('confirm_code')->first();
+        if ($user) { // 사용자 이메일 인증이 아직 되지 않은 사용자
+            flash('이메일 인증이 완료되지 않았습니다.');
+            return back()->withInput();
+        }
+
+    	if(!Auth::attempt($request->only('email', 'password'), $request->has('remember'))) {
     		flash('이메일 또는 비밀번호가 맞지 않습니다.');
-    		return back()->withInput();
+    		return redirect('auth/login');
     	}
     	//Auth::logoutOtherDevices($request->password);
     	flash(auth()->user()->name . '님 환영합니다.');

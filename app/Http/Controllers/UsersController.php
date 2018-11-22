@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\User;
 
 class UsersController extends Controller
 {
@@ -17,7 +19,7 @@ class UsersController extends Controller
     }
 
     public function store(Request $request) {
-        $socialUser = \App\User::whereEmail($request->email)->whereNull('password')->first();
+        $socialUser = User::whereEmail($request->email)->whereNull('password')->first();
 
         if($socialUser) {
             return $this->updateSocialAccount($request, $socialUser);
@@ -53,16 +55,44 @@ class UsersController extends Controller
             'password' => 'required|confirmed|min:6',
         ]);
 
+        $confirmCode = str_random(60);
+
+
         $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'confirm_code' => $confirmCode,
         ]);
-       // event(new \App\Events\UserCreated($user));
+
+        \Log::info('register', ['confirm_code'=>$user->confirm_code]);
+        
+        event(new \App\Events\UserCreated($user));
       
+       // auth()->login($user);
+        //flash(auth()->user()->name . '님, 환영합니다.');
+
+       
+        return redirect(route('sessions.create')); 
+    }    
+
+    public function confirm($code) {
+        $user = User::whereConfirmCode($code)->first();
+
+        if (!$user) {
+            flash('URL이 정확하지 않습니다.');
+            return redirect(route('users.create'));
+        }
+
+        $user->activated = 1;
+        $user->confirm_code = null;
+        $user->save();
+
         auth()->login($user);
-        flash(auth()->user()->name . '님, 환영합니다.');
+
+        flash(auth()->user()->name . '님, 환영합니다. 가입 확인되었습니다.');
 
         return redirect('bbs'); 
-    }    
+
+    }
 }

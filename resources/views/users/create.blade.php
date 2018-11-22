@@ -21,7 +21,7 @@
  	</div>
  	<div class="form-group {{$errors->has('password_confirmation')?'has-error':''}}">
  		<input type="password" name="password_confirmation" class="form-control" 
- 			placeholder="" value="{{old('password_confirmation')}}"
+ 			placeholder="password confirm" value="{{old('password_confirmation')}}"
  			autofocus="true">
  			{!! $errors->first('password_confirmation', '<span class="form-error">:message</span>')!!}
  	</div>

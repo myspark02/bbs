@@ -98,3 +98,12 @@ Route::get('social/{provider}/callback', [
 	'as' => 'social.callback',
 	'uses' => 'SocialController@handleProviderCallback',
 ]);
+
+Route::get('auth/confirm/{code}',    
+	[
+	'as' => 'users.confirm',
+    'uses' => 'UsersController@confirm',
+	])->where('code', '[\pL-\pN]{60}');
+
+
+
