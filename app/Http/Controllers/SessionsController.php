@@ -25,25 +25,31 @@ class SessionsController extends Controller
     		'password' => 'required|min:6',
     	]);
 
+        \Log::debug('login', ['step1'=>'before check wether email confirmed user or not']);
+
         $user = User::whereEmail($request->email)->whereNotNull('confirm_code')->first();
         if ($user) { // 사용자 이메일 인증이 아직 되지 않은 사용자
             flash('이메일 인증이 완료되지 않았습니다.');
             return back()->withInput();
         }
+        \Log::debug('login', ['step2'=>'before email and password check']);
 
     	if(!Auth::attempt($request->only('email', 'password'), $request->has('remember'))) {
     		flash('이메일 또는 비밀번호가 맞지 않습니다.');
-    		return redirect('auth/login');
+    		return back()->withInput();
     	}
     	//Auth::logoutOtherDevices($request->password);
-    	flash(auth()->user()->name . '님 환영합니다.');
-    	return redirect()->intended('bbs');
+        \Log::debug('login', ['step3'=>'before redirection to bbs']);
+
+    	flash(Auth::user()->name . '님 환영합니다.');
+    	return redirect()->intended(route('bbs'));
+        //return redirect(route('bbs'));
     }
 
     public function destroy() {
-    	auth()->logout();
+    	Auth::logout();
     	flash('또 방문해 주세요');
 
-    	return redirect('bbs');
+    	return redirect(route('sessions.create'));
     }
 }

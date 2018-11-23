@@ -42,7 +42,7 @@
             <a class="nav-link js-scroll-trigger" href="{{route('users.create')}}">회원가입</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="/bbs">BBS</a>
+            <a class="nav-link js-scroll-trigger" href="{{route('bbs.index', ['page'=>1])}}">BBS</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{{route('sessions.create')}}">로그인</a>
@@ -51,10 +51,10 @@
             <a class="nav-link js-scroll-trigger" href="{{route('sessions.destroy')}}">로그아웃</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{{route('remind.create')}}">비밀번호 재설정</a>
+            <a class="nav-link js-scroll-trigger" href="{{route('remind.create')}}">비밀번호 분실</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
+            <a class="nav-link js-scroll-trigger" href="{{route('bbs.myarticles')}}">내글보기</a>
           </li>
         </ul>
       </div>

@@ -17,6 +17,7 @@ Route::get('/', function () {
 Route::get('hello/world', function(){
 	return 'Hello World';
 });
+/*
 Route::get('bbs', ['as'=>'bbs', 'uses'=>'BBSController@index']);
 
 Route::get('write', 'BBSController@create');
@@ -30,6 +31,11 @@ Route::get('modify', 'BBSController@edit');
 Route::post('modify', 'BBSController@update');
 
 Route::post('delete', 'BBSController@destroy');
+*/
+
+Route::resource('bbs', 'BBSController');
+
+Route::get('myarticles', 'BBSController@myArticles')->name('bbs.myarticles');
 
 Route::get('master', function(){
 	return view('layouts.master');
@@ -105,5 +111,8 @@ Route::get('auth/confirm/{code}',
     'uses' => 'UsersController@confirm',
 	])->where('code', '[\pL-\pN]{60}');
 
-
+Route::get('login', [
+	'as'=>'sessions.create', 
+	'uses'=>'SessionsController@create',
+]);
 

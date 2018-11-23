@@ -20,7 +20,7 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
            // return redirect('/home');
             flash('이미 로그인 되어 있어 있습니다.');
-             return redirect('bbs');
+             return redirect(route('bbs.index'));
         }
 
         return $next($request);

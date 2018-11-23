@@ -12,9 +12,9 @@ class BoardTableSeeder extends Seeder
      */
     public function run()
     {
-    	//factory(App\Board::class, 50)->create();
+    	factory(App\Board::class, 500)->create();
         //App\Board::create();
-
+        /*
         $bs = App\Board::all();
         $min = 10;
         $max = \App\Board::max('id');
@@ -24,5 +24,6 @@ class BoardTableSeeder extends Seeder
             $uid = $faker->numberBetween($min, $max);
             $b->update(['user_id'=>$uid]);
         }
+        */
     }
 }

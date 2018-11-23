@@ -6,7 +6,7 @@
 @section('content')
 	<!--input type="hidden" id="_token" value="{{csrf_token()}}"-->
 	<script>
-			function delReq(num) {
+			function delReq(id) {
 				var yn = confirm("Are you sure?");
 				
 				if (yn == false) return;
@@ -14,7 +14,7 @@
 				$('#delete').submit();
 				/*
 				alert($('#_token').val());
-				location.href="'delete?num="+num+"&page={{$page}}&_token="+$('#_token').val()+"'";
+				location.href="'delete?id="+id+"&page={{$page}}&_token="+$('#_token').val()+"'";
 				*/				
 			}
 	</script>	
@@ -30,7 +30,7 @@
 			</tr>	
 			<tr> 
 				<th>작성자</th>
-				<td>{{$msg["writer"]}}</td>
+				<td>{{$msg->user->name}}</td>
 			</tr>	
 			<tr> 
 				<th>작성일시</th>
@@ -52,21 +52,24 @@
 		<div class="row">
 			<div class="col-sm-2">
 				<input type="button" class="btn btn-primary" 
-					onclick="location.href='bbs?page={{$page}}'" value="목록보기">
+					onclick="location.href='{{route('bbs.index', ['page'=>$page])}}'" value="목록보기">
 			</div>
-			<div class="col-sm-1">	
-				<input type="button" class="btn btn-success" 
-					onclick="location.href='modify?num={{$msg['id']}}&page={{$page}}'" value="수정">
-			</div>	
-			<div class="col-sm-1">
-				<form action="delete" id="delete" method="post">	
-					@csrf
-					<input type="hidden" name="num" value={{$msg["id"]}}>
-					<input type="hidden" name="page" value={{$page}}>
-					<input type="button" class="btn btn-danger" 
-						onclick="delReq({{$msg["id"]}})"value="삭제">
-				</form>	
-			</div>
+			@if(Auth::user()->id==$msg->user->id)
+				<div class="col-sm-1">	
+					<input type="button" class="btn btn-success" 
+						onclick="location.href='{{route('bbs.edit', ['bb'=>$msg->id, 'page'=>$page])}}'" value="수정">
+				</div>	
+				<div class="col-sm-1">
+					<form action="{{route('bbs.destroy', $msg->id)}}" id="delete" method="post">	
+						@csrf
+						@method('DELETE')
+						<input type="hidden" name="id" value={{$msg["id"]}}>
+						<input type="hidden" name="page" value={{$page}}>
+						<input type="button" class="btn btn-danger" 
+							onclick="delReq({{$msg["id"]}})"value="삭제">
+					</form>	
+				</div>
+			@endif
 			<div class="col-sm-8"></div>
 		</div>					
 	</div>	
