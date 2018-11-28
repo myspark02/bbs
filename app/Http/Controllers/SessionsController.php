@@ -42,7 +42,7 @@ class SessionsController extends Controller
         \Log::debug('login', ['step3'=>'before redirection to bbs']);
 
     	flash(Auth::user()->name . '님 환영합니다.');
-    	return redirect()->intended(route('bbs'));
+    	return redirect()->intended(route('bbs.index'));
         //return redirect(route('bbs'));
     }
 

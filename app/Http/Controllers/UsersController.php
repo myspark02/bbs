@@ -95,4 +95,14 @@ class UsersController extends Controller
         return redirect('bbs'); 
 
     }
+
+    public function checkEmail(Request $request) {
+        $cnt = User::whereEmail($request->email)->get()->count();
+        
+        if ($cnt)
+            return response()->json('true', 200);
+        else
+            return response()->json('false', 200);
+
+    }
 }

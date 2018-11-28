@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{csrf_token()}}">
 
     <title>@yield('title')</title>
 
@@ -21,7 +22,7 @@
 
     <!-- Custom styles for this template-->
     <link href="/css/resume.min.css" rel="stylesheet">
- 
+    @yield('css')
   </head>
 
   <body id="page-top">
@@ -61,8 +62,12 @@
     </nav>
 
     <div class="container-fluid p-0">
-    @include('flash::message')  
-    @yield('content')
+      <div class="jumbotron">
+        <h1 style="text-align: center;">게시판</h1>      
+        <p></p>
+      </div>
+      @include('flash::message')  
+      @yield('content')
 
     </div>
 
@@ -75,7 +80,8 @@
 
     <!-- Custom scripts for this template -->
     <script src="/js/resume.min.js"></script>
-
+    
+    @yield('script')
   </body>
 
 </html>

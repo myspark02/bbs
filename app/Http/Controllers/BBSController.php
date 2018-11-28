@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Board;
+use App\Attachment;
 
 class BBSController extends Controller
 {
@@ -88,25 +89,40 @@ class BBSController extends Controller
 	    //$board->writer = $writer;
 	    $board->content = $content;
 	    $board->save();
+	    \Log::debug('BBSController store', ['attachments'=>$request->attachments]);
+	    if($request->has('attachments')) {
+		    foreach($request->attachments as $aid) {
+		    	$attach = Attachment::find($aid);
+		    	$attach->board()->associate($board);
+		    	$attach->save();
+		    }
+		}
+
+
 	    return redirect(route('bbs.index', ['page'=>1]))->with('message', '새로운 게시글을 등록했습니다.');
 	    
     }
 
     public function destroy(Request $request, $id) {
-		$this->validate($request,['id'=>'required']);
-
+		//$this->validate($request,['id'=>'required']);
+    	\Log::debug('destory', ['id'=>$id]);
 		//$id = $request->get("id");
 		$page = $request->get("page");
 		
 		$msg = Board::find($id);
 		$msg->delete();
 		//okGo("게시글이 삭제 되었습니다.", "bbs?page=$page");
+		flash('message', $id . '번 게시글이 삭제 되었습니다');
+		/*
 		return redirect(route('bbs.index',['page'=>$page]))->with('message', $id.'번 게시글이 삭제 되었습니다');
+		*/
+		return response()->json('true', 200);
     }
 
     public function myArticles(Request $request) {
     	$user = Auth::user();
     	$page = $request->get('page');
+    	if(!$page) $page = 1;
     	$msgs = $user->boards()->orderBy('id', 'desc')->with('user')->paginate(10);
    
     	return view('bbs.board')->with('msgs', $msgs)->with('page', $page);   	

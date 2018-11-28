@@ -30,6 +30,6 @@ class SocialController extends Controller
         flash(
             trans('messages.sessions.info_welcome', ['name' => auth()->user()->name])
         );
-        return redirect(route('bbs'));
+        return redirect(route('bbs.index'));
     }
 }

@@ -116,3 +116,11 @@ Route::get('login', [
 	'uses'=>'SessionsController@create',
 ]);
 
+Route::get('auth/email', [
+	'as'=>'user.email',
+	'uses'=>'UsersController@checkEmail'
+
+]);
+
+Route::resource('attachments', 'AttachmentsController', ['only'=>['store', 'destroy']]);
+

@@ -63,10 +63,13 @@
 					<form action="{{route('bbs.destroy', $msg->id)}}" id="delete" method="post">	
 						@csrf
 						@method('DELETE')
-						<input type="hidden" name="id" value={{$msg["id"]}}>
+						<input type="hidden" id="id" name="id" value={{$msg["id"]}}>
 						<input type="hidden" name="page" value={{$page}}>
-						<input type="button" class="btn btn-danger" 
-							onclick="delReq({{$msg["id"]}})"value="삭제">
+						<!--input type="button" id="btnDelete" class="btn btn-danger" 
+							 onclick="delReq({{$msg["id"]}})" value="삭제"-->
+						<input type="button" id="btnDelete" class="btn btn-danger" 
+							  value="삭제">	 
+
 					</form>	
 				</div>
 			@endif
@@ -74,3 +77,30 @@
 		</div>					
 	</div>	
 @endsection	
+
+@section('script')
+	<script>
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		$('#btnDelete').on('click', function(){
+			//var id = $('#id').val();
+			//alert(id);
+			if(confirm('글을 삭제합니다.')) {
+				$.ajax({
+					type: 'DELETE',
+					url: '{{route("bbs.destroy", ["bb"=>$msg->id])}}',
+					success: function(data) {
+						if(data == 'true') {
+							location.href="{{route('bbs.index', ['page'=>$page])}}";
+						}
+					},
+				});
+			}	
+
+		});
+	</script>
+@endsection
