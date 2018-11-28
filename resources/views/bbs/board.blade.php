@@ -15,6 +15,7 @@
 				<th>제목</th>
 				<th>작성자</th>
 				<th>작성일시</th>
+				<th>작성자</th>
 				<th>조회수</th>
 			</tr>	
 			
@@ -22,18 +23,19 @@
 					<tr>
 						<td>{{$row->id}}</td>
 						<td>
-							<a href="/view?id={{$row->id}}&page={{$page}}">
+							<a href="{{route('bbs.show', ['bb'=>$row->id, 'page'=>$page])}}">
 								{{$row->title}}						
 							</a>		
 						</td>
 						<td>{{$row->writer}}</td>
 						<td>{{$row->regtime}}</td>
+						<td>{{$row->user->name}}</td>
 						<td>{{$row->hits}}</td>
 					</tr>
 				@endforeach	
 			
 		</table>	
-		<input type="button" value="글쓰기" onclick="location.href='/write'" class="btn btn-danger">
+		<input type="button" value="글쓰기" onclick="location.href='{{route('bbs.create')}}'" class="btn btn-danger">
 	</div>	
 	<br><br>
 	{{$msgs->links()}}
