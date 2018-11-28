@@ -43,7 +43,22 @@
 			<tr> 
 				<th>내용</th>
 				<td>{{$msg["content"]}}</td>				
-			</tr>				
+			</tr>
+			<tr>
+				<th>첨부파일</th>
+				<td>			
+					<ul>
+					@forelse($msg->attachments as $attach)
+						<li>
+							<a href="{{'/files/' . Auth::user()->id . '/' . $attach->filename}}">
+							{{$attach->filename}}
+							</a>
+						</li>
+					@empty <li>첨부파일 없음</li>	
+					@endforelse	
+					</ul>
+				</td>
+			</tr>		
 		</table>	
 
 	</div>	

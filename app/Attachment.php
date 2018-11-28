@@ -14,6 +14,14 @@ class Attachment extends Model
     }
 
     public function getUrlAttribute() {
-    	return url('files/'.$this->filename);
+    	return url('files/'. \Auth::user()->id . '/' . $this->filename);
     }
+
+   function deleteAttachedFile($filename) {
+        $path = public_path('files') . DIRECTORY_SEPARATOR .  \Auth::user()->id  . DIRECTORY_SEPARATOR . $filename;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+   }
+
 }

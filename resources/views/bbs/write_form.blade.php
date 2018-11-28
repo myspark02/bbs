@@ -4,10 +4,6 @@
 새 글쓰기 폼
 @endsection
 
-@section('css')
- <link href="/dist/dropzone.css" rel="stylesheet">
- <script src="/dist/dropzone.js"></script>
-@endsection
 
 @section('content')
 <div class="container">
@@ -60,40 +56,5 @@
   </button>
   <a class="btn btn-danger offset-md-1" href="{{route('bbs.index',['page'=>1])}}">목록보기</a>
 </div>
-<script type="text/javascript">
-
-  Dropzone.options.dropzone = {
-      removedfile: function(file) 
-            {
-              var name = file.upload.filename;
-              var id = file.upload.id;
-              $.ajax({
-                  headers: {
-                              'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                          },
-                  type: 'DELETE',
-                  url: '/attachments/'+id,
-                  data: {filename: name},
-                  success: function (data){
-                      console.log("File has been successfully removed!!");
-                  },
-                  error: function(e) {
-                      console.log(e);
-                  }});
-                  var fileRef;
-                  return (fileRef = file.previewElement) != null ? 
-                  fileRef.parentNode.removeChild(file.previewElement) : void 0;
-      },    
-      success: function(file, response) 
-      {
-          //alert(response.filename);
-          file.upload.id = response.id;
-          $("<input>", {type:'hidden', name:'attachments[]', value:response.id}).appendTo($('#store'));
-      },
-      error: function(file, response)
-      {
-         return false;
-      }
-  }
-</script>
+@include('bbs.dropZone')
 @endsection

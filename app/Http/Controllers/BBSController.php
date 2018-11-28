@@ -64,6 +64,22 @@ class BBSController extends Controller
 						/*'writer'=>'required',*/ 'content'=>'required']);	  
     	$msg = Board::find($id);
     	$msg->update(['title'=>$title, /*'writer'=>$writer,*/ 'content'=>$content]);
+
+ 	    if($request->has('attachments')) {
+		    foreach($request->attachments as $aid) {
+		    	$attach = Attachment::find($aid);
+		    	$attach->board()->associate($msg);
+		    	$attach->save();
+		    }
+		} 
+
+		if($request->has('del_attachments')) {
+			foreach($request->del_attachments as $did) {
+				$attach = Attachment::find($did);
+				$attach->deleteAttachedFile($attach->filename);
+				$attach->delete();
+			}
+		}  	
        
         return redirect(route('bbs.index', ['page'=>$page]))->with('message', $id."번 글이 정상적으로 수정되었습니다.");
   	
@@ -112,6 +128,15 @@ class BBSController extends Controller
 		$msg = Board::find($id);
 		$msg->delete();
 		//okGo("게시글이 삭제 되었습니다.", "bbs?page=$page");
+
+		$attachments = $msg->attachments;
+		if($attachments) {
+			foreach($attachments as $attach) {
+				$attach->deleteAttachedFile($attach->filename);
+				$attach->delete();
+			}
+		}
+
 		flash('message', $id . '번 게시글이 삭제 되었습니다');
 		/*
 		return redirect(route('bbs.index',['page'=>$page]))->with('message', $id.'번 게시글이 삭제 되었습니다');

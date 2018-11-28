@@ -13,7 +13,7 @@ class Board extends Model
     	return $this->belongsTo(User::class);
     }
 
-    public function attatchments() {
-    	return $this->hasMany(Attatchment::class);
+    public function attachments() {
+    	return $this->hasMany(Attachment::class);
     }
 }
